@@ -4,7 +4,12 @@ import { AppLayoutComponent } from './layout/app.layout.component';
 
 const routes: Routes = [
   {
-    path: '', component: AppLayoutComponent,
+    path: 'dashboard', component: AppLayoutComponent,
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule)
+
   }
 ];
 
