@@ -10,10 +10,12 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        data: { breadcrumb: 'Thông tin nhân viên' },
         component: EmployeeComponent
       },
       {
         path: 'account',
+        data: { breadcrumb: 'Tài khoản' },
         component: AccountComponent
       },
     ]

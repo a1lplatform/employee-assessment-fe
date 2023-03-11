@@ -65,7 +65,7 @@ export class AccountComponent extends UnSubscribable implements OnInit {
     formData.append('CCCD',  this.accountForm.get('cccd')?.value)
     formData.append('Birthday', format(new Date(this.account.birthday), 'dd-MM-yyyy'))
     formData.append('ID',  this.account.id)
-    this.accountService.editEmployee(formData)
+    this.accountService.editAccount(formData)
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({
         next: (res: any) => {
@@ -81,10 +81,10 @@ export class AccountComponent extends UnSubscribable implements OnInit {
 
   deleteEmployee(employee: any): void {
     this.confirmationService.confirm({
-      message: 'Xác nhận xóa nhân viên này',
+      message: 'Xác nhận xóa tài khoản này',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.accountService.deleteEmployee(employee.id)
+        this.accountService.deleteAccount(employee.id)
           .pipe(takeUntil(this.unsubscribeAll))
           .subscribe({
             next: (res) => {
