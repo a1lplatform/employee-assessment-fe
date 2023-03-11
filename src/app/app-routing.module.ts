@@ -1,10 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppLayoutComponent } from './layout/app.layout.component';
+import { AppLayoutComponent } from "./layout/app.layout.component";
+import { EmployeeComponent } from "./components/dashboard/components/employee";
+import { AccountComponent } from "./components/dashboard/components/account";
 
 const routes: Routes = [
   {
-    path: 'dashboard', component: AppLayoutComponent,
+    path: '', component: AppLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: EmployeeComponent
+      },
+      {
+        path: 'account',
+        component: AccountComponent
+      },
+    ]
   },
   {
     path: 'login',
@@ -17,4 +29,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

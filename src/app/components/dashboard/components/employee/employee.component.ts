@@ -9,10 +9,10 @@ import { UnSubscribable } from "@shared/directives";
 
 @Component({
   selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  templateUrl: 'employee.component.html',
+  styleUrls: ['employee.component.scss']
 })
-export class TableComponent extends UnSubscribable implements OnInit {
+export class EmployeeComponent extends UnSubscribable implements OnInit {
 
   employeeData: any;
   employee: any;
