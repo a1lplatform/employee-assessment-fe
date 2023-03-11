@@ -16,10 +16,12 @@ import { EmployeeComponent } from "./components/employee";
 import { AccountComponent } from "./components/account";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { AccountService } from "./services/account.service";
+import { GenderPipe } from "@shared/pipes";
+import { DropdownModule } from "primeng/dropdown";
 
 
 @NgModule({
-  declarations: [EmployeeComponent, AccountComponent],
+  declarations: [EmployeeComponent, AccountComponent, GenderPipe],
   imports: [
     DashboardRoutingModule,
     TableModule,
@@ -33,7 +35,8 @@ import { AccountService } from "./services/account.service";
     CalendarModule,
     FormsModule,
     MessagesModule,
-    ToastModule
+    ToastModule,
+    DropdownModule
   ],
   exports: [
     EmployeeComponent, AccountComponent

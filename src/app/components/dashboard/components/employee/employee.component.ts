@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import { ConfirmationService, MessageService } from "primeng/api";
 import { takeUntil } from "rxjs";
 import { UnSubscribable } from "@shared/directives";
+import { Gender } from "@shared/enums";
 
 
 @Component({
@@ -22,6 +23,16 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
   submitted!: boolean;
   isLoading!: boolean;
   employeeForm!: FormGroup;
+  readonly gender = [
+    {
+      name: Gender.Male,
+      code: 1
+    },
+    {
+      name: Gender.Female,
+      code: 0
+    }
+  ]
 
   constructor(
     private readonly employeeService: EmployeeService,
@@ -52,7 +63,17 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
 
   editEmployee(employee: any): void {
     this.employeeDialog = true;
-    this.employee = {...employee};
+    this.employee = {
+      ...employee,
+      birthday: new Date(employee.birthday)
+    };
+    if (employee.assessments.length === 0) {
+      let assessmentsObj = {
+        content: ''
+      }
+      employee.assessments.push(assessmentsObj)
+    }
+    console.log(employee)
   }
 
   saveAddEmployee(): void {
@@ -64,12 +85,12 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     this.employeeDialog = false;
     let formData = new FormData();
     formData.append('FullName', this.employeeForm.get('fullName')?.value)
-    formData.append('PhoneNo',  this.employeeForm.get('phoneNo')?.value)
-    formData.append('Email',  this.employeeForm.get('email')?.value)
-    formData.append('Address',  this.employeeForm.get('address')?.value)
-    formData.append('CCCD',  this.employeeForm.get('cccd')?.value)
+    formData.append('PhoneNo', this.employeeForm.get('phoneNo')?.value)
+    formData.append('Email', this.employeeForm.get('email')?.value)
+    formData.append('Address', this.employeeForm.get('address')?.value)
+    formData.append('CCCD', this.employeeForm.get('cccd')?.value)
     formData.append('Birthday', format(new Date(this.employee.birthday), 'dd-MM-yyyy'))
-    formData.append('ID',  this.employee.id)
+    formData.append('ID', this.employee.id)
     this.employeeService.editEmployee(formData)
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({
@@ -89,16 +110,16 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
       message: 'Xác nhận xóa nhân viên này',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.employeeService.deleteEmployee(employee.id)
-            .pipe(takeUntil(this.unsubscribeAll))
+        this.employeeService.deleteEmployee(employee.id)
+          .pipe(takeUntil(this.unsubscribeAll))
           .subscribe({
-              next: (res) => {
-                this.employeeData.splice(this.employeeData.indexOf(employee), 1)
-                this.messageService.add({severity:'success', detail: 'Xóa thành công', life: 3000});
-              },
-              error: (err: any) => {
-                this.messageService.add({severity: 'error', summary: 'Lỗi', detail: 'Error'});
-              }
+            next: (res) => {
+              this.employeeData.splice(this.employeeData.indexOf(employee), 1)
+              this.messageService.add({severity: 'success', detail: 'Xóa thành công', life: 3000});
+            },
+            error: (err: any) => {
+              this.messageService.add({severity: 'error', summary: 'Lỗi', detail: 'Error'});
+            }
           })
       }
     })

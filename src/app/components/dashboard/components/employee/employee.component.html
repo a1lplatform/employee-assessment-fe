@@ -57,7 +57,7 @@
       <td>{{employee.phoneNo}}</td>
       <td>{{employee.email}}</td>
       <td>{{employee.address}}</td>
-      <td>{{employee.gender}}</td>
+      <td>{{employee.gender | gender}}</td>
       <td>{{employee.birthday | date }}</td>
       <td>{{employee.assessments[0]?.content}}</td>
       <td>
@@ -206,11 +206,8 @@
       >
       </div>
       <div class="field">
-        <label for="gender">Giới tính</label> <input
-        pInputText
-        type="text"
-        formControlName="gender"
-      >
+        <label for="gender">Giới tính</label>
+        <p-dropdown  optionLabel="name" formControlName="gender" [options]="gender"></p-dropdown>
       </div>
       <div class="field">
         <label>DOB</label>

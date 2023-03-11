@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UnSubscribable } from "@shared/directives";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services";
-import { Routes } from "@shared/enums";
+import { AppRoutes } from "@shared/enums";
 import { finalize, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
+import { SessionService } from "@shared/services";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent extends UnSubscribable implements OnInit {
     constructor(
         private readonly authService: AuthService,
         private readonly formBuilder: FormBuilder,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly sessionService: SessionService
     ) {
         super();
     }
@@ -39,8 +41,8 @@ export class LoginComponent extends UnSubscribable implements OnInit {
         )
         .subscribe({
             next: (res) => {
-                console.log(res)
-                this.router.navigate(['', Routes.DashBoard]);
+                this.sessionService.rememberInfo(res);
+                this.router.navigate(['', AppRoutes.DashBoard]);
             },
             error: (err: any) => {
             }

@@ -1,3 +1,5 @@
-export enum Routes {
-    DashBoard = 'dashboard'
+export enum AppRoutes {
+    DashBoard = 'dashboard',
+    Account = 'account',
+    Login = 'login'
 }

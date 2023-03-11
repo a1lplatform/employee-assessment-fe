@@ -7,15 +7,15 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { ConfirmationService } from "primeng/api";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AppLayoutModule,
-  ],
-  providers: [ConfirmationService ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AppLayoutModule,
+    ],
+    providers: [ConfirmationService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
