@@ -1,0 +1,12 @@
+{
+    "bracketSameLine": true,
+    "htmlWhitespaceSensitivity": "css",
+    "printWidth": 120,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "none",
+    "useTabs": false,
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    }
+}
