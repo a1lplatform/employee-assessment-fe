@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends UnSubscribable implements OnInit {
+export class LoginComponent implements OnInit {
     isLoadingBtn!: boolean;
     loginForm!: FormGroup;
     constructor(
@@ -22,9 +22,6 @@ export class LoginComponent extends UnSubscribable implements OnInit {
         super();
     }
 
-    ngOnInit(): void {
-        this.initForm();
-    }
 
     onLogin(): void {
         const loginValue = {
