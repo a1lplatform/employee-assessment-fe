@@ -207,7 +207,7 @@
       </div>
       <div class="field">
         <label for="gender">Giới tính</label>
-        <p-dropdown  optionLabel="name" formControlName="gender" [options]="gender"></p-dropdown>
+        <p-dropdown [(ngModel)]="selectedGender" optionValue="code"  optionLabel="name" formControlName="gender" [options]="gender"></p-dropdown>
       </div>
       <div class="field">
         <label>DOB</label>

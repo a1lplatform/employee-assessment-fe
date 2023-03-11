@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 import { ConfirmationService, MessageService } from "primeng/api";
 import { takeUntil } from "rxjs";
 import { UnSubscribable } from "@shared/directives";
-import { Gender } from "@shared/enums";
+import { GenderConstant } from "@shared/constants";
 
 
 @Component({
@@ -15,6 +15,8 @@ import { Gender } from "@shared/enums";
 })
 export class EmployeeComponent extends UnSubscribable implements OnInit {
 
+  readonly gender = GenderConstant;
+  selectedGender = 1;
   employeeData: any;
   employee: any;
   employeeDialog!: boolean;
@@ -23,16 +25,6 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
   submitted!: boolean;
   isLoading!: boolean;
   employeeForm!: FormGroup;
-  readonly gender = [
-    {
-      name: Gender.Male,
-      code: 1
-    },
-    {
-      name: Gender.Female,
-      code: 0
-    }
-  ]
 
   constructor(
     private readonly employeeService: EmployeeService,
