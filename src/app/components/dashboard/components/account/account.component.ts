@@ -17,7 +17,8 @@ export class AccountComponent extends UnSubscribable implements OnInit {
   accountData: any;
   account: any;
   accountDialog!: boolean;
-  employeeCreationDialog!: boolean;
+  accountCreationDialog!: boolean;
+  isLoading!: boolean;
 
   submitted!: boolean;
   accountForm!: FormGroup;
@@ -33,29 +34,35 @@ export class AccountComponent extends UnSubscribable implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.isLoading = true;
     this.accountService.getAccounts().subscribe({
       next: (data) => {
         this.accountData = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
       }
     })
   }
 
-  addEmployee(): void {
+  addAccount(): void {
     this.account = {};
-    this.employeeCreationDialog = true
+    this.accountCreationDialog = true
   }
 
-  editEmployee(employee: any): void {
+  editAccount(account: any): void {
     this.accountDialog = true;
-    this.account = {...employee};
+    console.log(account)
+    this.account = {...account};
   }
 
-  saveAddEmployee(): void {
-    this.employeeCreationDialog = false;
+  saveAddAccount(): void {
+    this.accountCreationDialog = false;
     console.log(this.accountForm)
   }
 
-  saveEditEmployee(): void {
+  saveEditAccount(): void {
     this.accountDialog = false;
     let formData = new FormData();
     formData.append('FullName', this.accountForm.get('fullName')?.value)
@@ -79,16 +86,16 @@ export class AccountComponent extends UnSubscribable implements OnInit {
 
   }
 
-  deleteEmployee(employee: any): void {
+  deleteAccount(account: any): void {
     this.confirmationService.confirm({
       message: 'Xác nhận xóa tài khoản này',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.accountService.deleteAccount(employee.id)
+        this.accountService.deleteAccount(account.id)
           .pipe(takeUntil(this.unsubscribeAll))
           .subscribe({
             next: (res) => {
-              this.accountData.splice(this.accountData.indexOf(employee), 1)
+              this.accountData.splice(this.accountData.indexOf(account), 1)
               this.messageService.add({severity:'success', detail: 'Xóa thành công', life: 3000});
             },
             error: (err: any) => {

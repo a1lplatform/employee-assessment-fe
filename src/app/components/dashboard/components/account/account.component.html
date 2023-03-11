@@ -1,5 +1,6 @@
 <p-toast></p-toast>
 <p-table #dt [value]="accountData" [rows]="10" [paginator]="true"
+         [loading]="isLoading"
          [rowHover]="true" dataKey="id"
          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
 >
@@ -18,7 +19,7 @@
               label="Thêm"
               icon="pi pi-plus"
               class="p-button-success mr-2"
-              (click)="addEmployee()"
+              (click)="addAccount()"
       ></button>
     </div>
   </ng-template>
@@ -56,14 +57,14 @@
         <button pButton
                 pRipple
                 icon="pi pi-pencil"
-                class="p-button-rounded p-button-success p-mr-2"
-                (click)="editEmployee(account)"
+                class="p-button-rounded p-button-success p-mr-2 mr-2"
+                (click)="editAccount(account)"
         ></button>
         <button pButton
                 pRipple
                 icon="pi pi-trash"
                 class="p-button-rounded p-button-warning"
-                (click)="deleteEmployee(account)"
+                (click)="deleteAccount(account)"
         ></button>
       </td>
     </tr>
@@ -142,12 +143,12 @@
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEditEmployee()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEditAccount()"></button>
   </ng-template>
 </p-dialog>
 
 
-<p-dialog [(visible)]="employeeCreationDialog"
+<p-dialog [(visible)]="accountCreationDialog"
           [style]="{width: '450px'}"
           header="Thêm thông tin nhân viên"
           [modal]="true"
@@ -214,7 +215,7 @@
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveAddEmployee()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveAddAccount()"></button>
   </ng-template>
 </p-dialog>
 

@@ -20,6 +20,7 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
   employeeCreationDialog!: boolean;
 
   submitted!: boolean;
+  isLoading!: boolean;
   employeeForm!: FormGroup;
 
   constructor(
@@ -36,6 +37,10 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     this.employeeService.getEmployeeData().subscribe({
       next: (data) => {
         this.employeeData = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
       }
     })
   }

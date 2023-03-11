@@ -1,5 +1,6 @@
 <p-toast></p-toast>
 <p-table #dt [value]="employeeData" [rows]="10" [paginator]="true"
+         [loading]="isLoading"
          [rowHover]="true" dataKey="id"
          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
 >
@@ -63,7 +64,7 @@
         <button pButton
                 pRipple
                 icon="pi pi-pencil"
-                class="p-button-rounded p-button-success p-mr-2"
+                class="p-button-rounded p-button-success p-mr-2 mr-2"
                 (click)="editEmployee(employee)"
         ></button>
         <button pButton
