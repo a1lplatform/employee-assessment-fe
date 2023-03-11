@@ -19,6 +19,7 @@ import { AccountService } from './services/account.service';
 import { GenderPipe } from '@shared/pipes';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
     declarations: [EmployeeComponent, AccountComponent, GenderPipe],
@@ -39,7 +40,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
         DropdownModule,
         NgClass,
         NgIf,
-        InputNumberModule
+        InputNumberModule,
+        FileUploadModule
     ],
     exports: [EmployeeComponent, AccountComponent],
     providers: [EmployeeService, MessageService, AccountService]

@@ -3,9 +3,11 @@ import { EmployeeService } from '../../services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { format } from 'date-fns';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { takeUntil } from 'rxjs';
+import { pipe, takeUntil } from 'rxjs';
 import { UnSubscribable } from '@shared/directives';
 import { GenderConstant } from '@shared/constants';
+import { SessionService } from '@shared/services';
+import { Employee } from '../../models';
 
 @Component({
     selector: 'app-table',
@@ -17,12 +19,15 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     selectedGender = 1;
     employeeData: any;
     employee: any;
+    employeeCreate!: any;
     employeeDialog!: boolean;
+    employeeViewDialog!: boolean;
     employeeCreationDialog!: boolean;
 
     submitted!: boolean;
     isLoading!: boolean;
     employeeForm!: FormGroup;
+    addEmployeeForm!: FormGroup;
 
     constructor(
         private readonly employeeService: EmployeeService,
@@ -35,24 +40,33 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
 
     ngOnInit(): void {
         this.initForm();
-        this.employeeService.getEmployeeData().subscribe({
-            next: (data) => {
-                this.employeeData = data;
-                this.isLoading = false;
-            },
-            error: (err) => {
-                this.isLoading = false;
-            }
-        });
+        this.isLoading = true;
+        this.employeeService
+            .getEmployeeData()
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe({
+                next: (data) => {
+                    this.employeeData = data;
+                    this.isLoading = false;
+                },
+                error: (err) => {
+                    this.isLoading = false;
+                }
+            });
     }
 
     addEmployee(): void {
-        this.employee = {};
+        this.initAddEmployeeForm();
+        this.employeeCreate = {};
         this.employeeCreationDialog = true;
+        if (this.employeeForm.disabled) {
+            this.employeeForm.enable();
+        }
     }
 
-    editEmployee(employee: any): void {
-        this.employeeDialog = true;
+    viewEmployee(employee: any) {
+        this.employeeViewDialog = true;
+        this.employeeForm.disable();
         this.employee = {
             ...employee,
             birthday: new Date(employee.birthday)
@@ -63,25 +77,43 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
             };
             employee.assessments.push(assessmentsObj);
         }
-        console.log(employee);
+    }
+
+    editEmployee(employee: any): void {
+        this.employeeDialog = true;
+        if (this.employeeForm.disabled) {
+            this.employeeForm.enable();
+        }
+        this.employee = {
+            ...employee,
+            birthday: new Date(employee.birthday)
+        };
+        if (employee.assessments.length === 0) {
+            let assessmentsObj = {
+                content: ''
+            };
+            employee.assessments.push(assessmentsObj);
+        }
     }
 
     saveAddEmployee(): void {
         this.employeeCreationDialog = false;
-        console.log(this.employeeForm);
     }
 
     saveEditEmployee(): void {
         this.employeeDialog = false;
         let formData = new FormData();
+        formData.append('CCCD', this.employeeForm.get('cccd')?.value);
         formData.append('FullName', this.employeeForm.get('fullName')?.value);
         formData.append('PhoneNo', this.employeeForm.get('phoneNo')?.value);
-        formData.append('Email', this.employeeForm.get('email')?.value);
         formData.append('Address', this.employeeForm.get('address')?.value);
-        formData.append('CCCD', this.employeeForm.get('cccd')?.value);
+        formData.append('Email', this.employeeForm.get('email')?.value);
         formData.append('Birthday', format(new Date(this.employee.birthday), 'dd-MM-yyyy'));
+        formData.append('Gender', '0');
         formData.append('ID', this.employee.id);
-        console.log(formData);
+        formData.forEach((value, key) => {
+            console.log(key + ' ' + value);
+        });
         this.employeeService
             .editEmployee(formData)
             .pipe(takeUntil(this.unsubscribeAll))
@@ -90,7 +122,6 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
                     console.log(res);
                 },
                 error: (err: any) => {
-                    console.log(err);
                     this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Error' });
                 }
             });
@@ -117,21 +148,39 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
         });
     }
 
-    initForm(): void {
+    hideDialog(): void {
+        this.employeeDialog = false;
+        this.employeeCreationDialog = false;
+        this.submitted = false;
+    }
+
+    private initForm(): void {
         this.employeeForm = this.formBuilder.group({
             fullName: [null, Validators.required],
             phoneNo: [null, Validators.required],
             cccd: [null, Validators.required],
-            email: [null, Validators.required],
+            email: [null, [Validators.required, Validators.email]],
             address: [null, Validators.required],
             gender: [null, Validators.required],
             birthday: [null],
-            assessment: [null]
+            assessment: [null],
+            images: [null]
         });
     }
 
-    hideDialog(): void {
-        this.employeeDialog = false;
-        this.submitted = false;
+    private initAddEmployeeForm(): void {
+        this.addEmployeeForm = this.formBuilder.group({
+            fullName: [null, Validators.required],
+            phoneNo: [null, Validators.required],
+            cccd: [null, Validators.required],
+            email: [null, [Validators.required, Validators.email]],
+            address: [null, Validators.required],
+            gender: [null, Validators.required],
+            birthday: [null],
+            assessment: [null],
+            images: [null]
+        });
     }
+
+    private buildFormData(): void {}
 }
