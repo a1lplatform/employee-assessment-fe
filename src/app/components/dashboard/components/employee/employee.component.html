@@ -9,11 +9,11 @@
     <div class="p-d-flex p-ai-center p-jc-between justify-content-between flex">
       <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText
-                           type="text"
-                           placeholder="Search..."
-                    />
-                </span>
+                   <input pInputText
+                          type="text"
+                          placeholder="Search..."
+                   />
+      </span>
       <button pButton
               pRipple
               label="Thêm"
@@ -32,23 +32,16 @@
       <th pSortableColumn="phoneNo">Số điện thoại
         <p-sortIcon field="phoneNo"></p-sortIcon>
       </th>
-      <th pSortableColumn="email">Email
-        <p-sortIcon field="email"></p-sortIcon>
-      </th>
-      <th pSortableColumn="address">Địa chỉ
-        <p-sortIcon field="address"></p-sortIcon>
-      </th>
+      <th>Email</th>
+      <th>Địa chỉ</th>
       <th pSortableColumn="gender">Giới tính
         <p-sortIcon field="gender"></p-sortIcon>
       </th>
       <th pSortableColumn="birthday">DOB
         <p-sortIcon field="birthday"></p-sortIcon>
       </th>
-      <th pSortableColumn="assessments">Đánh giá
-        <p-sortIcon field="assessments"></p-sortIcon>
-      </th>
-      <th>
-      </th>
+      <th>Đánh giá</th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-employee>
@@ -78,6 +71,7 @@
   </ng-template>
 </p-table>
 
+<!--edit dialog-->
 <p-dialog [(visible)]="employeeDialog"
           [style]="{width: '450px'}"
           header="Chỉnh sửa thông tin nhân viên"
@@ -87,52 +81,59 @@
   <ng-template pTemplate="content">
     <form [formGroup]="employeeForm" method="post" enctype="multipart/form-data">
       <div class="field">
-        <label for="fullName">Tên nhân viên</label> <input [(ngModel)]="employee.fullName"
-                                                           pInputText
-                                                           type="text"
-                                                           id="fullName"
-                                                           formControlName="fullName"
-      >
+        <label for="fullName">Tên nhân viên</label>
+        <input [(ngModel)]="employee.fullName"
+               pInputText
+               type="text"
+               id="fullName"
+               formControlName="fullName"
+               required
+        >
       </div>
       <div class="field">
-        <label for="phoneNo">Số điện thoại</label> <input [(ngModel)]="employee.phoneNo"
-                                                          pInputText
-                                                          type="text"
-                                                          id="phoneNo"
-                                                          formControlName="phoneNo"
-      >
+        <label for="phoneNo">Số điện thoại</label>
+        <input [(ngModel)]="employee.phoneNo"
+               pInputText
+               type="text"
+               id="phoneNo"
+               formControlName="phoneNo"
+        >
       </div>
       <div class="cccd">
-        <label for="cccd">Số căn cước</label> <input [(ngModel)]="employee.cccd"
-                                                     pInputText
-                                                     type="text"
-                                                     id="cccd"
-                                                     formControlName="cccd"
-      >
+        <label for="cccd">Số căn cước</label>
+        <input [(ngModel)]="employee.cccd"
+               pInputText
+               type="text"
+               id="cccd"
+               formControlName="cccd"
+        >
       </div>
       <div class="field">
-        <label for="email">Email</label> <input [(ngModel)]="employee.email"
-                                                pInputText
-                                                type="text"
-                                                id="email"
-                                                formControlName="email"
-      >
+        <label for="email">Email</label>
+        <input [(ngModel)]="employee.email"
+               pInputText
+               type="text"
+               id="email"
+               formControlName="email"
+        >
       </div>
       <div class="field">
-        <label for="address">Địa chỉ</label> <input [(ngModel)]="employee.address"
-                                                    pInputText
-                                                    type="text"
-                                                    id="address"
-                                                    formControlName="address"
-      >
+        <label for="address">Địa chỉ</label>
+        <input [(ngModel)]="employee.address"
+               pInputText
+               type="text"
+               id="address"
+               formControlName="address"
+        >
       </div>
       <div class="field">
-        <label for="gender">Giới tính</label> <input [(ngModel)]="employee.gender"
-                                                     pInputText
-                                                     type="text"
-                                                     id="gender"
-                                                     formControlName="gender"
-      >
+        <label for="gender">Giới tính</label>
+        <input [(ngModel)]="employee.gender"
+               pInputText
+               type="text"
+               id="gender"
+               formControlName="gender"
+        >
       </div>
       <div class="field">
         <label>DOB</label>
@@ -140,16 +141,18 @@
                     dateFormat="dd.mm.yy"
                     formControlName="birthday"
                     [(ngModel)]="employee.birthday"
-                    [inline]="true"
-        ></p-calendar>
+                    [inline]="true">
+
+        </p-calendar>
       </div>
       <div class="field">
-        <label for="assessment">Đánh giá</label> <input [(ngModel)]="employee?.assessments[0].content"
-                                                        pInputText
-                                                        type="text"
-                                                        id="assessment"
-                                                        formControlName="assessment"
-      >
+        <label for="assessment">Đánh giá</label>
+        <input [(ngModel)]="employee?.assessments[0].content"
+               pInputText
+               type="text"
+               id="assessment"
+               formControlName="assessment"
+        >
       </div>
 
     </form>
@@ -160,6 +163,7 @@
     <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEditEmployee()"></button>
   </ng-template>
 </p-dialog>
+<!--endregion-->
 
 
 <p-dialog [(visible)]="employeeCreationDialog"
@@ -171,54 +175,65 @@
   <ng-template pTemplate="content">
     <form [formGroup]="employeeForm" method="post" enctype="multipart/form-data">
       <div class="field">
-        <label for="fullName">Tên nhân viên</label> <input
-        pInputText
-        type="text"
-        formControlName="fullName"
-      >
+        <label for="fullName">Tên nhân viên</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="fullName"
+        >
       </div>
       <div class="field">
-        <label for="phoneNo">Số điện thoại</label> <input
-        pInputText
-        type="text"
-        formControlName="phoneNo"
-      >
+        <label for="phoneNo">Số điện thoại</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="phoneNo"
+        >
       </div>
       <div class="cccd">
-        <label for="cccd">Số căn cước</label> <input
-        pInputText
-        type="text"
-        formControlName="cccd"
-      >
+        <label for="cccd">Số căn cước</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="cccd"
+        >
       </div>
       <div class="field">
-        <label for="email">Email</label> <input
-        pInputText
-        type="text"
-        formControlName="email"
-      >
+        <label for="email">Email</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="email"
+        >
       </div>
       <div class="field">
-        <label for="address">Địa chỉ</label> <input
-        pInputText
-        type="text"
-        formControlName="address"
-      >
+        <label for="address">Địa chỉ</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="address"
+        >
       </div>
       <div class="field">
         <label for="gender">Giới tính</label>
-        <p-dropdown [(ngModel)]="selectedGender" optionValue="code"  optionLabel="name" formControlName="gender" [options]="gender"></p-dropdown>
+        <p-dropdown [(ngModel)]="selectedGender"
+                    optionValue="code"
+                    optionLabel="name"
+                    formControlName="gender"
+                    [options]="gender"
+        ></p-dropdown>
       </div>
       <div class="field">
         <label>DOB</label>
         <p-calendar [showTime]="false" dateFormat="dd.mm.yy" formControlName="birthday" [inline]="true"></p-calendar>
       </div>
       <div class="field">
-        <label for="assessment">Đánh giá</label> <input
-        pInputText
-        type="text"
-        formControlName="assessment"
-      >
+        <label for="assessment">Đánh giá</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="assessment"
+        >
       </div>
 
     </form>

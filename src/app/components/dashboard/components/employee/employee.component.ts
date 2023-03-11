@@ -83,6 +83,7 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     formData.append('CCCD', this.employeeForm.get('cccd')?.value)
     formData.append('Birthday', format(new Date(this.employee.birthday), 'dd-MM-yyyy'))
     formData.append('ID', this.employee.id)
+    console.log(formData)
     this.employeeService.editEmployee(formData)
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({

@@ -80,54 +80,60 @@
   <ng-template pTemplate="content">
     <form [formGroup]="accountForm" method="post" enctype="multipart/form-data">
       <div class="field">
-        <label for="username">Tên tài khoản</label> <input [(ngModel)]="account.username"
-                                                           pInputText
-                                                           type="text"
-                                                           id="username"
-                                                           formControlName="username"
-                                                           [disabled]="true"
-      >
+        <label for="username">Tên tài khoản</label>
+        <input [(ngModel)]="account.username"
+               pInputText
+               type="text"
+               id="username"
+               formControlName="username"
+               [disabled]="true"
+        >
       </div>
       <div class="field">
-        <label for="point">Điểm</label> <input [(ngModel)]="account.point"
-                                                          pInputText
-                                                          type="number"
-                                                          id="point"
-                                                          formControlName="point"
-      >
+        <label for="point">Điểm</label>
+        <input [(ngModel)]="account.point"
+               pInputText
+               type="number"
+               id="point"
+               formControlName="point"
+        >
       </div>
       <div class="field">
-        <label for="roleName">Loại người dùng</label> <input [(ngModel)]="account.roleName"
-                                                     pInputText
-                                                     type="text"
-                                                     id="roleName"
-                                                     formControlName="roleName"
-                                                     [disabled]="true"
-      >
+        <label for="roleName">Loại người dùng</label>
+        <input [(ngModel)]="account.roleName"
+               pInputText
+               type="text"
+               id="roleName"
+               formControlName="roleName"
+               [disabled]="true"
+        >
       </div>
       <div class="field">
-        <label for="fullName">Họ và tên</label> <input [(ngModel)]="account.fullName"
-                                                           pInputText
-                                                           type="text"
-                                                           id="fullName"
-                                                           formControlName="fullName"
-      >
+        <label for="fullName">Họ và tên</label>
+        <input [(ngModel)]="account.fullName"
+               pInputText
+               type="text"
+               id="fullName"
+               formControlName="fullName"
+        >
       </div>
       <div class="field">
-        <label for="phoneNo">SĐT</label> <input [(ngModel)]="account.phoneNo"
-                                                       pInputText
-                                                       type="number"
-                                                       id="phoneNo"
-                                                       formControlName="phoneNo"
-      >
+        <label for="phoneNo">SĐT</label>
+        <input [(ngModel)]="account.phoneNo"
+               pInputText
+               type="number"
+               id="phoneNo"
+               formControlName="phoneNo"
+        >
       </div>
       <div class="field">
-        <label for="email">Email</label> <input [(ngModel)]="account.email"
-                                                pInputText
-                                                type="text"
-                                                id="email"
-                                                formControlName="email"
-      >
+        <label for="email">Email</label>
+        <input [(ngModel)]="account.email"
+               pInputText
+               type="text"
+               id="email"
+               formControlName="email"
+        >
       </div>
       <div class="field">
         <label>DOB</label>
