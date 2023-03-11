@@ -15,6 +15,7 @@ import { CalendarModule } from "primeng/calendar";
 import { EmployeeComponent } from "./components/employee";
 import { AccountComponent } from "./components/account";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
+import { AccountService } from "./services/account.service";
 
 
 @NgModule({
@@ -37,6 +38,6 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
   exports: [
     EmployeeComponent, AccountComponent
   ],
-  providers: [EmployeeService, MessageService]
+  providers: [EmployeeService, MessageService, AccountService]
 })
 export class DashboardModule { }
