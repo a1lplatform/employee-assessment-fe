@@ -12,7 +12,7 @@ import { UnSubscribable } from "@shared/directives";
   templateUrl: 'employee.component.html',
   styleUrls: ['employee.component.scss']
 })
-export class EmployeeComponent extends UnSubscribable implements OnInit {
+export class EmployeeComponent implements OnInit {
 
   employeeData: any;
   employee: any;
@@ -29,21 +29,8 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     private readonly messageService: MessageService,
     private readonly confirmationService: ConfirmationService
   ) {
-    super();
   }
 
-  ngOnInit(): void {
-    this.initForm();
-    this.employeeService.getEmployeeData().subscribe({
-      next: (data) => {
-        this.employeeData = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-      }
-    })
-  }
 
   addEmployee(): void {
     this.employee = {};

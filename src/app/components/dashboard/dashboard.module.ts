@@ -38,6 +38,6 @@ import { AccountService } from "./services/account.service";
   exports: [
     EmployeeComponent, AccountComponent
   ],
-  providers: [EmployeeService, MessageService, AccountService]
+  providers: []
 })
 export class DashboardModule { }
