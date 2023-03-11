@@ -1,4 +1,8 @@
 <div class="layout-topbar">
+  <a class="app-logo" routerLink="/">
+    <img alt="app logo" src="./assets/layout/images/a1logo.png" style="width: 10rem;">
+    <span class="app-name">A1</span>
+  </a>
 
     <button #menubutton class="topbar-menubutton p-link" type="button" (click)="onMenuButtonClick()">
         <span></span>
@@ -29,14 +33,6 @@
                 <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
                     <i class="pi pi-user mr-3"></i>
                     <span>Profile</span>
-                </a>
-                <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
-                    <i class="pi pi-inbox mr-3"></i>
-                    <span>Inbox</span>
-                </a>
-                <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
-                    <i class="pi pi-cog mr-3"></i>
-                    <span>Settings</span>
                 </a>
                 <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
                     <i class="pi pi-power-off mr-3"></i>
