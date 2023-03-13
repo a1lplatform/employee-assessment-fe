@@ -7,11 +7,6 @@ import { Employee } from '../models';
 
 @Injectable()
 export class EmployeeService {
-    httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'multipart/form-data; application/problem+json; charset=utf-8' // 👈
-        })
-    };
     constructor(private readonly httpClient: HttpClient) {}
     getEmployeeData(): Observable<Employee[]> {
         return this.httpClient
@@ -35,5 +30,9 @@ export class EmployeeService {
         return this.httpClient
             .delete(`${environment.defaultApiBasePath}/Employee/${employeeId}`)
             .pipe(map((res: any) => res && res.data));
+    }
+
+    editEmployeeAssessment(data: any): Observable<any> {
+        return this.httpClient.post(`${environment.defaultApiBasePath}/Assessment`, data);
     }
 }

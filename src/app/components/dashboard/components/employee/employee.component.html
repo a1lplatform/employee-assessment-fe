@@ -52,7 +52,17 @@
       <td>{{employee.address}}</td>
       <td>{{employee.gender | gender}}</td>
       <td>{{employee.birthday | date }}</td>
-      <td>{{employee.assessments[0]?.content}}</td>
+      <!--<td>{{employee.assessments[0]?.content}}</td>-->
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input (keydown.enter)="onFinishEditAssessment(employee)" pInputText type="text" [(ngModel)]="employee.assessments[0].content" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{employee.assessments[0].content}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
       <td>
         <button pButton
                 pRipple
@@ -167,7 +177,7 @@
       </div>
       <div class="field">
         <label for="assessment">Đánh giá</label>
-        <input [(ngModel)]="employee?.assessments[0].content"
+        <input [(ngModel)]="employee.assessments[0].content"
                pInputText
                type="text"
                id="assessment"
@@ -225,24 +235,23 @@
       </div>
       <div class="field">
         <label for="phoneNo">Số điện thoại</label>
-        <p-inputNumber
+        <input
+          pInputText
           formControlName="phoneNo"
-          mode="decimal"
+          [onlyNumber]="true"
           [ngClass]="employeeForm.get('phoneNo')?.invalid  && employeeForm.get('phoneNo')?.touched  ? 'ng-invalid ng-dirty': '' "
         >
-        </p-inputNumber>
         <small *ngIf="employeeForm.get('phoneNo')?.invalid  && employeeForm.get('phoneNo')?.touched" class="p-error">Không
           được để trống</small>
       </div>
       <div class="cccd">
         <label for="cccd">Số căn cước</label>
-        <p-inputNumber
+        <input
+          pInputText
+          [onlyNumber]="true"
           formControlName="cccd"
-          mode="decimal"
-          [useGrouping]="false"
           [ngClass]="employeeForm.get('cccd')?.invalid  && employeeForm.get('cccd')?.touched ? 'ng-invalid ng-dirty': ''"
         >
-        </p-inputNumber>
         <small *ngIf="employeeForm.get('cccd')?.invalid  && employeeForm.get('cccd')?.touched" class="p-error">Không
           được để trống</small>
       </div>
@@ -293,6 +302,21 @@
           formControlName="assessment"
         >
       </div>
+      <div class="field">
+        <label>Upload hình ảnh nhân viên</label>
+        <input
+          type="file"
+          formControlName="images"
+          multiple
+          (change)="onFileSelected($event)"
+        >
+        <ul>
+          <li class="flex justify-content-between" *ngFor="let file of selectedFiles;let i=index">
+            <span>{{file.name}}</span>
+            <i class="pi pi-times" (click)="removeFile(i)"></i>
+          </li>
+        </ul>
+      </div>
 
     </form>
   </ng-template>
@@ -303,6 +327,7 @@
   </ng-template>
 </p-dialog>
 
+<!--view dialog-->
 <p-dialog [(visible)]="employeeViewDialog"
           [style]="{width: '450px'}"
           header="Thông tin nhân viên"
@@ -321,19 +346,17 @@
       </div>
       <div class="field">
         <label for="phoneNo">Số điện thoại</label>
-        <p-inputNumber [(ngModel)]="employee.phoneNo"
-                       formControlName="phoneNo"
+        <input [(ngModel)]="employee.phoneNo"
+               pInputText
+               formControlName="phoneNo"
         >
-        </p-inputNumber>
       </div>
       <div class="cccd">
         <label for="cccd">Số căn cước</label>
-        <p-inputNumber [(ngModel)]="employee.cccd"
-                       formControlName="cccd"
-                       mode="decimal"
-                       [useGrouping]="false"
+        <input [(ngModel)]="employee.cccd"
+               pInputText
+               formControlName="cccd"
         >
-        </p-inputNumber>
       </div>
       <div class="field">
         <label for="email">Email</label>
@@ -371,7 +394,7 @@
       </div>
       <div class="field">
         <label for="assessment">Đánh giá</label>
-        <input [(ngModel)]="employee?.assessments[0].content"
+        <input [(ngModel)]="employee.assessments[0].content"
                pInputText
                type="text"
                formControlName="assessment"
@@ -380,11 +403,9 @@
 
       <div class="field">
         <label for="images">Hình ảnh nhân viên</label>
-        <input
-          pInputText
-          type="file"
-          formControlName="images"
-        >
+        <div *ngFor="let employee of employee.images">
+          <p-image src="http://a1lplatform.com:7555/wwwroot/upload/{{employee.url}}" alt="Image" width="450"></p-image>
+        </div>
       </div>
 
     </form>
@@ -392,8 +413,8 @@
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveEditEmployee()"></button>
   </ng-template>
 </p-dialog>
+<!--endregion-->
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

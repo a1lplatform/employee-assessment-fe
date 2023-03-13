@@ -1,6 +1,5 @@
 export class CommonHelper {
     static buildFormData(
-        ID: string,
         Address: string,
         Birthday: string,
         CCCD: string,
@@ -8,11 +7,9 @@ export class CommonHelper {
         FullName: string,
         Gender: string,
         PhoneNo: string,
-        Assessments?: string,
-        Images?: unknown
+        ID?: string
     ): FormData {
         const formData = new FormData();
-        formData.append('ID', ID);
         formData.append('CCCD', CCCD);
         formData.append('FullName', FullName);
         formData.append('PhoneNo', PhoneNo);
@@ -20,6 +17,7 @@ export class CommonHelper {
         formData.append('Email', Email);
         formData.append('Birthday', Birthday);
         formData.append('Gender', Gender);
+        formData.append('ID', ID as string);
         return formData;
     }
 }

@@ -21,6 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { OnlyNumberDirective } from '@shared/directives';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
     declarations: [EmployeeComponent, AccountComponent, GenderPipe, OnlyNumberDirective],
@@ -43,7 +44,8 @@ import { OnlyNumberDirective } from '@shared/directives';
         NgIf,
         InputNumberModule,
         FileUploadModule,
-        NgForOf
+        NgForOf,
+        ImageModule
     ],
     exports: [EmployeeComponent, AccountComponent],
     providers: [EmployeeService, MessageService, AccountService]
