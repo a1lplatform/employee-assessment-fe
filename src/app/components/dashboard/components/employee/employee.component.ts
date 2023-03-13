@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services';
-import { AbstractControl, Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { endOfDay, format } from 'date-fns';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { pipe, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { UnSubscribable } from '@shared/directives';
 import { GenderConstant } from '@shared/constants';
-import { SessionService } from '@shared/services';
 import { Employee } from '../../models';
 import { CommonHelper } from '@shared/helper';
-import { fi } from 'date-fns/locale';
+import { vi } from 'date-fns/locale';
 
 @Component({
     selector: 'app-table',
@@ -18,7 +17,7 @@ import { fi } from 'date-fns/locale';
 })
 export class EmployeeComponent extends UnSubscribable implements OnInit {
     readonly gender = GenderConstant;
-    selectedGender = 1;
+    selectedGender!: any;
     employeeData!: Employee[];
     employee!: Employee;
     employeeCreate!: any;
@@ -42,10 +41,10 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     }
 
     constructor(
+        private readonly confirmationService: ConfirmationService,
         private readonly employeeService: EmployeeService,
         private readonly formBuilder: FormBuilder,
-        private readonly messageService: MessageService,
-        private readonly confirmationService: ConfirmationService
+        private readonly messageService: MessageService
     ) {
         super();
     }
@@ -58,7 +57,10 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe({
                 next: (data) => {
-                    this.employeeData = data;
+                    this.employeeData = data.map((dt) => ({
+                        ...dt,
+                        birthday: format(new Date(dt.birthday), 'dd/MM/yyyy', { locale: vi })
+                    }));
                     for (let employee of this.employeeData) {
                         if (employee.assessments.length === 0) {
                             let assessmentsObj = {
@@ -69,11 +71,13 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
                         }
                     }
                     this.isLoading = false;
+                    console.log(this.employeeData);
                 },
                 error: (err) => {
                     this.isLoading = false;
                 }
             });
+        this.selectedGender = this.employeeFormGroup.get('gender')?.value;
     }
 
     addEmployee(): void {
@@ -143,6 +147,7 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe({
                 next: () => {
+                    this.employeeData = [...this.employeeData];
                     this.messageService.add({ severity: 'success', detail: 'Tạo thành công', life: 3000 });
                 },
                 error: (err: any) => {
@@ -152,10 +157,14 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     }
 
     saveEditEmployee(): void {
+        console.log(this.getEmployeeFormGroupControl('birthday').value);
+        console.log(
+            format(endOfDay(new Date(this.getEmployeeFormGroupControl('birthday').value)), "yyyy-MM-dd'T'HH:mm:ss'Z'")
+        );
         this.employeeDialog = false;
         const params = CommonHelper.buildFormData(
             this.getEmployeeFormGroupControl('address').value,
-            format(new Date(this.getEmployeeFormGroupControl('birthday').value), 'dd/MM/yyyy'),
+            format(endOfDay(new Date(this.getEmployeeFormGroupControl('birthday').value)), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
             this.getEmployeeFormGroupControl('cccd').value,
             this.getEmployeeFormGroupControl('email').value,
             this.getEmployeeFormGroupControl('fullName').value,
@@ -163,14 +172,14 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
             this.getEmployeeFormGroupControl('phoneNo').value,
             this.employee.id
         );
-        for (let i = 0; i < this.selectedFiles.length; i++) {
-            params.append('images', this.selectedFiles[i]);
+        for (const element of this.selectedFiles) {
+            params.append('images', element);
         }
         this.employeeService
             .editEmployee(params)
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe({
-                next: (res: any) => {
+                next: () => {
                     this.messageService.add({ severity: 'success', detail: 'Chỉnh sửa thành công', life: 3000 });
                 },
                 error: (err: any) => {

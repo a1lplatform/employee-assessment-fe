@@ -13,7 +13,9 @@
             <input formControlName="password" type="password" pInputText placeholder="Mật khẩu" class="w-full">
         </span>
         </form>
-
+      <p>
+        <a [routerLink]=""  (click)="goToSignUp()">Đăng ký tài khoản</a>
+      </p>
         <button pButton pRipple label="Đăng nhập" class="mb-4" [loading]="isLoadingBtn" (click)="onLogin()"></button>
 
     </div>

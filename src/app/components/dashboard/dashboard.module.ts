@@ -20,11 +20,11 @@ import { GenderPipe } from '@shared/pipes';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
-import { OnlyNumberDirective } from '@shared/directives';
 import { ImageModule } from 'primeng/image';
+import { SharedUiModule } from '@shared/modules';
 
 @NgModule({
-    declarations: [EmployeeComponent, AccountComponent, GenderPipe, OnlyNumberDirective],
+    declarations: [EmployeeComponent, AccountComponent, GenderPipe],
     imports: [
         DashboardRoutingModule,
         TableModule,
@@ -45,7 +45,8 @@ import { ImageModule } from 'primeng/image';
         InputNumberModule,
         FileUploadModule,
         NgForOf,
-        ImageModule
+        ImageModule,
+        SharedUiModule
     ],
     exports: [EmployeeComponent, AccountComponent],
     providers: [EmployeeService, MessageService, AccountService]

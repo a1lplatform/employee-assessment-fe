@@ -5,6 +5,7 @@ import { EmployeeComponent } from './components/dashboard/components/employee';
 import { AccountComponent } from './components/dashboard/components/account';
 import { AuthGuard } from '@shared/guards';
 import { AppRoutes } from '@shared/enums';
+import { SignUpComponent } from './components/auth/components/sign-up';
 
 const routes: Routes = [
     { path: '', redirectTo: AppRoutes.DashBoard, pathMatch: 'full' },
@@ -25,6 +26,10 @@ const routes: Routes = [
                 canActivate: [AuthGuard]
             }
         ]
+    },
+    {
+        path: AppRoutes.SignUp,
+        component: SignUpComponent
     },
     {
         path: AppRoutes.Login,

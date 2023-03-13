@@ -1,5 +1,6 @@
 <p-toast></p-toast>
 <p-table #dt [value]="employeeData" [rows]="10" [paginator]="true"
+         [globalFilterFields]="['fullName']"
          [loading]="isLoading"
          [rowHover]="true" dataKey="id"
          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
@@ -11,6 +12,7 @@
                     <i class="pi pi-search"></i>
                    <input pInputText
                           type="text"
+                          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
                           placeholder="Search..."
                    />
       </span>
@@ -51,7 +53,7 @@
       <td>{{employee.email}}</td>
       <td>{{employee.address}}</td>
       <td>{{employee.gender | gender}}</td>
-      <td>{{employee.birthday | date }}</td>
+      <td>{{employee.birthday }}</td>
       <!--<td>{{employee.assessments[0]?.content}}</td>-->
       <td pEditableColumn>
         <p-cellEditor>

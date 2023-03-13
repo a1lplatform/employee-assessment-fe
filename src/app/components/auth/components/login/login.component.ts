@@ -15,6 +15,7 @@ import { SessionService } from '@shared/services';
 export class LoginComponent extends UnSubscribable implements OnInit {
     isLoadingBtn!: boolean;
     loginForm!: FormGroup;
+
     constructor(
         private readonly authService: AuthService,
         private readonly formBuilder: FormBuilder,
@@ -46,6 +47,10 @@ export class LoginComponent extends UnSubscribable implements OnInit {
                 },
                 error: (err: any) => {}
             });
+    }
+
+    goToSignUp() {
+        this.router.navigate(['', AppRoutes.SignUp]);
     }
 
     private initForm(): void {

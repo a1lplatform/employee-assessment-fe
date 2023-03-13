@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Roles } from '@shared/enums';
-import { tr } from 'date-fns/locale';
 
 @Injectable({
     providedIn: 'root'
