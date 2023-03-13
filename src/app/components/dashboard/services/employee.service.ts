@@ -21,7 +21,7 @@ export class EmployeeService {
 
     editEmployee(employeeData: any): Observable<any> {
         return this.httpClient
-            .put(`${environment.defaultApiBasePath}/Employee`, employeeData, this.httpOptions)
+            .put(`${environment.defaultApiBasePath}/Employee`, employeeData)
             .pipe(map((res: any) => res && res.data));
     }
 

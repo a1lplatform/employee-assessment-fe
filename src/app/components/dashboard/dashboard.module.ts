@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RippleModule } from 'primeng/ripple';
@@ -20,9 +20,10 @@ import { GenderPipe } from '@shared/pipes';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
+import { OnlyNumberDirective } from '@shared/directives';
 
 @NgModule({
-    declarations: [EmployeeComponent, AccountComponent, GenderPipe],
+    declarations: [EmployeeComponent, AccountComponent, GenderPipe, OnlyNumberDirective],
     imports: [
         DashboardRoutingModule,
         TableModule,
@@ -41,7 +42,8 @@ import { FileUploadModule } from 'primeng/fileupload';
         NgClass,
         NgIf,
         InputNumberModule,
-        FileUploadModule
+        FileUploadModule,
+        NgForOf
     ],
     exports: [EmployeeComponent, AccountComponent],
     providers: [EmployeeService, MessageService, AccountService]

@@ -99,28 +99,26 @@
       </div>
       <div class="field">
         <label for="phoneNo">Số điện thoại</label>
-        <p-inputNumber [(ngModel)]="employee.phoneNo"
-                       id="phoneNo"
-                       formControlName="phoneNo"
-                       mode="decimal"
-                       [useGrouping]="false"
-                       [ngClass]="employeeForm.get('phoneNo')?.invalid ? 'ng-invalid ng-dirty': ''"
+        <input [(ngModel)]="employee.phoneNo"
+               [onlyNumber]="true"
+               pInputText
+               id="phoneNo"
+               formControlName="phoneNo"
+               [ngClass]="employeeForm.get('phoneNo')?.invalid ? 'ng-invalid ng-dirty': ''"
 
         >
-        </p-inputNumber>
         <small *ngIf="employeeForm.get('phoneNo')?.invalid" class="p-error">Không được để trống</small>
       </div>
       <div class="cccd">
         <label for="cccd">Số căn cước</label>
-        <p-inputNumber [(ngModel)]="employee.cccd"
-                       id="cccd"
-                       formControlName="cccd"
-                       mode="decimal"
-                       [useGrouping]="false"
-                       [ngClass]="employeeForm.get('cccd')?.invalid ? 'ng-invalid ng-dirty': ''"
+        <input [(ngModel)]="employee.cccd"
+               [onlyNumber]="true"
+               pInputText
+               id="cccd"
+               formControlName="cccd"
+               [ngClass]="employeeForm.get('cccd')?.invalid ? 'ng-invalid ng-dirty': ''"
 
         >
-        </p-inputNumber>
         <small *ngIf="employeeForm.get('cccd')?.invalid" class="p-error">Không được để trống</small>
       </div>
       <div class="field">
@@ -147,7 +145,7 @@
         <small *ngIf="employeeForm.get('address')?.invalid" class="p-error">Không được để trống</small>
       </div>
       <div class="field">
-        <label >Giới tính</label>
+        <label>Giới tính</label>
         <p-dropdown [(ngModel)]="selectedGender"
                     optionValue="code"
                     optionLabel="name"
@@ -180,11 +178,18 @@
       <div class="field">
         <label for="images">Upload hình ảnh nhân viên</label>
         <input
-          pInputText
           type="file"
           id="images"
           formControlName="images"
+          multiple
+          (change)="onFileSelected($event)"
         >
+        <ul>
+          <li class="flex justify-content-between" *ngFor="let file of selectedFiles;let i=index">
+            <span>{{file.name}}</span>
+            <i class="pi pi-times" (click)="removeFile(i)"></i>
+          </li>
+        </ul>
       </div>
 
     </form>
