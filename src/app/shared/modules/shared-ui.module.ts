@@ -10,12 +10,17 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GenderPipe } from '@shared/pipes';
 import { ImageModule } from 'primeng/image';
+import { DropdownModule } from 'primeng/dropdown';
+import { AuthService } from '../../components/auth/services';
 
 @NgModule({
     declarations: [OnlyNumberDirective, GenderPipe],
     exports: [
+        ///pipes and directives
         OnlyNumberDirective,
         GenderPipe,
+
+        //primeng module
         CalendarModule,
         InputTextModule,
         ButtonModule,
@@ -23,8 +28,9 @@ import { ImageModule } from 'primeng/image';
         InputNumberModule,
         MessagesModule,
         ToastModule,
-        ImageModule
+        ImageModule,
+        DropdownModule
     ],
-    providers: [MessageService]
+    providers: [MessageService, AuthService]
 })
 export class SharedUiModule {}

@@ -9,7 +9,6 @@ import { EmployeeComponent } from './components/employee';
 import { AccountComponent } from './components/account';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { AccountService } from './services/account.service';
-import { DropdownModule } from 'primeng/dropdown';
 import { SharedUiModule } from '@shared/modules';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { SharedUiModule } from '@shared/modules';
         ReactiveFormsModule,
         DatePipe,
         FormsModule,
-        DropdownModule,
         NgClass,
         NgIf,
         NgForOf,
