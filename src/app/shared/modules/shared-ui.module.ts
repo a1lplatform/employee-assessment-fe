@@ -12,6 +12,7 @@ import { GenderPipe } from '@shared/pipes';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
 import { AuthService } from '../../components/auth/services';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
     declarations: [OnlyNumberDirective, GenderPipe],
@@ -29,7 +30,8 @@ import { AuthService } from '../../components/auth/services';
         MessagesModule,
         ToastModule,
         ImageModule,
-        DropdownModule
+        DropdownModule,
+        PasswordModule
     ],
     providers: [MessageService, AuthService]
 })

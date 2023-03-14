@@ -15,7 +15,7 @@ import { AppRoutes, RangeEnum, Roles } from '@shared/enums';
 @Component({
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
-    styleUrls: ['./sign-up.component.scss']
+    styleUrls: ['./sign-up.component.scss', '../../../../../assets/themes/spinner.scss']
 })
 export class SignUpComponent extends UnSubscribable implements OnInit {
     readonly gender = GenderConstant;
@@ -103,7 +103,7 @@ export class SignUpComponent extends UnSubscribable implements OnInit {
                     }, 3000);
                 },
                 error: () => {
-                    this.isLoading = false;
+                    this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Error' });
                 }
             });
     }

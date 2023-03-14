@@ -10,11 +10,12 @@ import { SessionService } from '@shared/services';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrls: ['./login.component.scss', '../../../../../assets/themes/spinner.scss']
 })
 export class LoginComponent extends UnSubscribable implements OnInit {
     isLoadingBtn!: boolean;
     loginForm!: FormGroup;
+    isLoading!: boolean;
 
     constructor(
         private readonly authService: AuthService,
@@ -30,15 +31,19 @@ export class LoginComponent extends UnSubscribable implements OnInit {
     }
 
     onLogin(): void {
+        if (this.loginForm.invalid) {
+            this.loginForm.markAllAsTouched();
+            return;
+        }
         const loginValue = {
             ...this.loginForm.value
         };
-        this.isLoadingBtn = true;
+        this.isLoading = true;
         this.authService
             .login(loginValue)
             .pipe(
                 takeUntil(this.unsubscribeAll),
-                finalize(() => (this.isLoadingBtn = false))
+                finalize(() => (this.isLoading = false))
             )
             .subscribe({
                 next: (res) => {

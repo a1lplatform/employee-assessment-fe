@@ -5,7 +5,7 @@
 
 <div class="surface-ground h-screen w-screen flex align-items-center justify-content-center">
   <div class="surface-card py-7 px-5 sm:px-7 shadow-2 flex flex-column " style="border-radius:14px">
-    <h1 class="font-bold text-2xl mt-0 mb-2">Employee Assessment</h1>
+    <h1 class="font-bold text-2xl mt-0 mb-2">Đăng ký tài khoản</h1>
 
     <form [formGroup]="signUpForm">
         <span class="p-input-icon-left mb-4">
@@ -26,14 +26,16 @@
 
       <span class="p-input-icon-left mb-4">
             <i class="pi pi-key"></i>
-            <input
+            <p-password
               formControlName="password"
               type="password"
-              pInputText
               placeholder="Mật khẩu"
-              class="w-full"
+              [toggleMask]="true"
+              [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'100%'}"
               [ngClass]="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched ? 'ng-invalid ng-dirty': '' "
             >
+            </p-password>
             <small *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched"
                    class="p-error">
                  Không được để trống

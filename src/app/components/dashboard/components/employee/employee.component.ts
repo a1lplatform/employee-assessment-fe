@@ -71,7 +71,6 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
                         }
                     }
                     this.isLoading = false;
-                    console.log(this.employeeData);
                 },
                 error: (err) => {
                     this.isLoading = false;
