@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { EmployeeComponent } from './components/dashboard/components/employee';
 import { AccountComponent } from './components/dashboard/components/account';
-import { AuthGuard } from '@shared/guards';
+import { AuthGuard, NoAuthGuard } from '@shared/guards';
 import { AppRoutes } from '@shared/enums';
 import { SignUpComponent } from './components/auth/components/sign-up';
 
@@ -29,7 +29,8 @@ const routes: Routes = [
     },
     {
         path: AppRoutes.SignUp,
-        component: SignUpComponent
+        component: SignUpComponent,
+        canActivate: [NoAuthGuard]
     },
     {
         path: AppRoutes.Login,
