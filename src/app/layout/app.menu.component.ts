@@ -9,21 +9,22 @@ import { AppRoutes } from '@shared/enums';
 })
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
+    isAdmin!: boolean;
 
     constructor(private readonly sessionService: SessionService) {}
 
     ngOnInit() {
+        this.isAdmin = this.sessionService.isAdmin();
         this.model = [
             {
                 label: 'Thông tin nhân viên',
                 icon: 'pi pi-home',
-                routerLink: [AppRoutes.DashBoard]
+                routerLink: this.sessionService.isAdmin() ? [AppRoutes.DashBoard] : ''
             },
             {
                 label: 'Quản lý tài khoản',
                 icon: 'pi pi-fw pi-user',
-                routerLink: this.sessionService.isAdmin() ? [AppRoutes.Account] : '',
-                disabled: true
+                routerLink: this.sessionService.isAdmin() ? [AppRoutes.Account] : ''
             }
         ];
     }
