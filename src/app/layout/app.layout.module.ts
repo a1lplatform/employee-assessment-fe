@@ -21,6 +21,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
+import { DashboardModule } from "../components/dashboard/dashboard.module";
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { MenuModule } from 'primeng/menu';
         RippleModule,
         RouterModule,
         TooltipModule,
-        AppConfigModule
+        AppConfigModule,
+        DashboardModule
     ],
     exports: [AppLayoutComponent]
 })

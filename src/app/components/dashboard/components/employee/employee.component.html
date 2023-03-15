@@ -1,0 +1,422 @@
+<p-toast></p-toast>
+<p-table #dt [value]="employeeData" [rows]="10" [paginator]="true"
+         [globalFilterFields]="['fullName']"
+         [loading]="isLoading"
+         [rowHover]="true" dataKey="id"
+         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="caption">
+    <h5 class="p-m-0">Thông tin nhân viên</h5>
+    <div class="p-d-flex p-ai-center p-jc-between justify-content-between flex">
+      <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                   <input pInputText
+                          type="text"
+                          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                          placeholder="Search..."
+                   />
+      </span>
+      <button pButton
+              pRipple
+              label="Thêm"
+              icon="pi pi-plus"
+              class="p-button-success mr-2"
+              (click)="addEmployee()"
+      ></button>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="fullName">Tên
+        <p-sortIcon field="fullName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="phoneNo">Số điện thoại
+        <p-sortIcon field="phoneNo"></p-sortIcon>
+      </th>
+      <th>Email</th>
+      <th>Địa chỉ</th>
+      <th pSortableColumn="gender">Giới tính
+        <p-sortIcon field="gender"></p-sortIcon>
+      </th>
+      <th pSortableColumn="birthday">DOB
+        <p-sortIcon field="birthday"></p-sortIcon>
+      </th>
+      <th>Đánh giá</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-employee>
+    <tr>
+      <td>{{employee.fullName}}</td>
+      <td>{{employee.phoneNo}}</td>
+      <td>{{employee.email}}</td>
+      <td>{{employee.address}}</td>
+      <td>{{employee.gender | gender}}</td>
+      <td>{{employee.birthday }}</td>
+      <!--<td>{{employee.assessments[0]?.content}}</td>-->
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input (keydown.enter)="onFinishEditAssessment(employee)" pInputText type="text" [(ngModel)]="employee.assessments[0].content" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{employee.assessments[0].content}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <button pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-mr-2 mr-2"
+                (click)="editEmployee(employee)"
+        ></button>
+        <button pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-secondary p-mr-2 mr-2"
+                (click)="viewEmployee(employee)"
+        ></button>
+        <button pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-warning"
+                (click)="deleteEmployee(employee)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!--edit dialog-->
+<p-dialog [(visible)]="employeeDialog"
+          [style]="{width: '450px'}"
+          header="Chỉnh sửa thông tin nhân viên"
+          [modal]="true"
+          styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="employeeForm" method="post" enctype="multipart/form-data">
+      <div class="field">
+        <label for="fullName">Tên nhân viên</label>
+        <input [(ngModel)]="employee.fullName"
+               pInputText
+               type="text"
+               id="fullName"
+               formControlName="fullName"
+               [ngClass]="employeeForm.get('fullName')?.invalid ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('fullName')?.invalid" class="p-error">Không được để trống</small>
+      </div>
+      <div class="field">
+        <label for="phoneNo">Số điện thoại</label>
+        <input [(ngModel)]="employee.phoneNo"
+               [onlyNumber]="true"
+               pInputText
+               id="phoneNo"
+               formControlName="phoneNo"
+               [ngClass]="employeeForm.get('phoneNo')?.invalid ? 'ng-invalid ng-dirty': ''"
+
+        >
+        <small *ngIf="employeeForm.get('phoneNo')?.invalid" class="p-error">Không được để trống</small>
+      </div>
+      <div class="cccd">
+        <label for="cccd">Số căn cước</label>
+        <input [(ngModel)]="employee.cccd"
+               [onlyNumber]="true"
+               pInputText
+               id="cccd"
+               formControlName="cccd"
+               [ngClass]="employeeForm.get('cccd')?.invalid ? 'ng-invalid ng-dirty': ''"
+
+        >
+        <small *ngIf="employeeForm.get('cccd')?.invalid" class="p-error">Không được để trống</small>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input [(ngModel)]="employee.email"
+               pInputText
+               type="text"
+               id="email"
+               formControlName="email"
+               [ngClass]="employeeForm.get('email')?.invalid ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('email')?.hasError('required')" class="p-error">Không được để trống</small>
+        <small *ngIf=" employeeForm.get('email')?.hasError('email')" class="p-error">Sai định dạng email</small>
+      </div>
+      <div class="field">
+        <label for="address">Địa chỉ</label>
+        <input [(ngModel)]="employee.address"
+               pInputText
+               type="text"
+               id="address"
+               formControlName="address"
+               [ngClass]="employeeForm.get('address')?.invalid ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('address')?.invalid" class="p-error">Không được để trống</small>
+      </div>
+      <div class="field">
+        <label>Giới tính</label>
+        <p-dropdown [(ngModel)]="selectedGender"
+                    optionValue="code"
+                    optionLabel="name"
+                    formControlName="gender"
+                    [options]="gender"
+                    [ngClass]="employeeForm.get('gender')?.invalid  && employeeForm.get('gender')?.touched ? 'ng-invalid ng-dirty': ''"
+        ></p-dropdown>
+        <small *ngIf="employeeForm.get('gender')?.invalid" class="p-error">Không được để trống</small>
+      </div>
+      <div class="field">
+        <label>DOB</label>
+        <p-calendar [showTime]="false"
+                    dateFormat="dd.mm.yy"
+                    formControlName="birthday"
+                    [(ngModel)]="employee.birthday"
+                    [inline]="true">
+
+        </p-calendar>
+      </div>
+      <div class="field">
+        <label for="assessment">Đánh giá</label>
+        <input [(ngModel)]="employee.assessments[0].content"
+               pInputText
+               type="text"
+               id="assessment"
+               formControlName="assessment"
+        >
+      </div>
+
+      <div class="field">
+        <label for="images">Upload hình ảnh nhân viên</label>
+        <input
+          type="file"
+          id="images"
+          formControlName="images"
+          multiple
+          (change)="onFileSelected($event)"
+        >
+        <ul>
+          <li class="flex justify-content-between" *ngFor="let file of selectedFiles;let i=index">
+            <span>{{file.name}}</span>
+            <i class="pi pi-times" (click)="removeFile(i)"></i>
+          </li>
+        </ul>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEditEmployee()"></button>
+  </ng-template>
+</p-dialog>
+<!--endregion-->
+
+
+<!--create dialog-->
+<p-dialog [(visible)]="employeeCreationDialog"
+          [style]="{width: '450px'}"
+          header="Thêm nhân viên"
+          [modal]="true"
+          styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="addEmployeeForm" method="post" enctype="multipart/form-data">
+      <div class="field">
+        <label for="fullName">Tên nhân viên</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="fullName"
+          [ngClass]="employeeForm.get('fullName')?.invalid && employeeForm.get('fullName')?.touched ? 'ng-invalid ng-dirty': '' "
+        >
+        <small *ngIf="employeeForm.get('fullName')?.invalid && employeeForm.get('fullName')?.touched" class="p-error">Không
+          được để trống</small>
+      </div>
+      <div class="field">
+        <label for="phoneNo">Số điện thoại</label>
+        <input
+          pInputText
+          formControlName="phoneNo"
+          [onlyNumber]="true"
+          [ngClass]="employeeForm.get('phoneNo')?.invalid  && employeeForm.get('phoneNo')?.touched  ? 'ng-invalid ng-dirty': '' "
+        >
+        <small *ngIf="employeeForm.get('phoneNo')?.invalid  && employeeForm.get('phoneNo')?.touched" class="p-error">Không
+          được để trống</small>
+      </div>
+      <div class="cccd">
+        <label for="cccd">Số căn cước</label>
+        <input
+          pInputText
+          [onlyNumber]="true"
+          formControlName="cccd"
+          [ngClass]="employeeForm.get('cccd')?.invalid  && employeeForm.get('cccd')?.touched ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('cccd')?.invalid  && employeeForm.get('cccd')?.touched" class="p-error">Không
+          được để trống</small>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="email"
+          [ngClass]="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched || employeeForm.get('email')?.hasError('email')  ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" class="p-error">Không
+          được để trống</small>
+        <small *ngIf=" employeeForm.get('email')?.hasError('email')" class="p-error">Sai định dạng email</small>
+      </div>
+      <div class="field">
+        <label for="address">Địa chỉ</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="address"
+          [ngClass]="employeeForm.get('address')?.invalid && employeeForm.get('address')?.touched ? 'ng-invalid ng-dirty': ''"
+        >
+        <small *ngIf="employeeForm.get('address')?.invalid && employeeForm.get('address')?.touched" class="p-error">Không
+          được để trống</small>
+      </div>
+      <div class="field">
+        <label for="gender">Giới tính</label>
+        <p-dropdown [(ngModel)]="selectedGender"
+                    optionValue="code"
+                    optionLabel="name"
+                    formControlName="gender"
+                    [options]="gender"
+                    [ngClass]="employeeForm.get('gender')?.invalid  && employeeForm.get('gender')?.touched ? 'ng-invalid ng-dirty': ''"
+        ></p-dropdown>
+        <small *ngIf="employeeForm.get('gender')?.invalid  && employeeForm.get('gender')?.touched" class="p-error">Không
+          được để trống</small>
+      </div>
+      <div class="field">
+        <label>DOB</label>
+        <p-calendar [showTime]="false" dateFormat="dd.mm.yy" formControlName="birthday" [inline]="true"></p-calendar>
+      </div>
+      <div class="field">
+        <label for="assessment">Đánh giá</label>
+        <input
+          pInputText
+          type="text"
+          formControlName="assessment"
+        >
+      </div>
+      <div class="field">
+        <label>Upload hình ảnh nhân viên</label>
+        <input
+          type="file"
+          formControlName="images"
+          multiple
+          (change)="onFileSelected($event)"
+        >
+        <ul>
+          <li class="flex justify-content-between" *ngFor="let file of selectedFiles;let i=index">
+            <span>{{file.name}}</span>
+            <i class="pi pi-times" (click)="removeFile(i)"></i>
+          </li>
+        </ul>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveAddEmployee()"></button>
+  </ng-template>
+</p-dialog>
+
+<!--view dialog-->
+<p-dialog [(visible)]="employeeViewDialog"
+          [style]="{width: '450px'}"
+          header="Thông tin nhân viên"
+          [modal]="true"
+          styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="employeeForm" method="post" enctype="multipart/form-data">
+      <div class="field">
+        <label for="fullName">Tên nhân viên</label>
+        <input [(ngModel)]="employee.fullName"
+               pInputText
+               type="text"
+               formControlName="fullName"
+        >
+      </div>
+      <div class="field">
+        <label for="phoneNo">Số điện thoại</label>
+        <input [(ngModel)]="employee.phoneNo"
+               pInputText
+               formControlName="phoneNo"
+        >
+      </div>
+      <div class="cccd">
+        <label for="cccd">Số căn cước</label>
+        <input [(ngModel)]="employee.cccd"
+               pInputText
+               formControlName="cccd"
+        >
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input [(ngModel)]="employee.email"
+               pInputText
+               type="text"
+               formControlName="email"
+        >
+      </div>
+      <div class="field">
+        <label for="address">Địa chỉ</label>
+        <input [(ngModel)]="employee.address"
+               pInputText
+               type="text"
+               formControlName="address"
+        >
+      </div>
+      <div class="field">
+        <label for="gender">Giới tính</label>
+        <input [(ngModel)]="employee.gender"
+               pInputText
+               type="text"
+               formControlName="gender"
+        >
+      </div>
+      <div class="field">
+        <label>DOB</label>
+        <p-calendar [showTime]="false"
+                    dateFormat="dd.mm.yy"
+                    formControlName="birthday"
+                    [(ngModel)]="employee.birthday"
+                    [inline]="true">
+
+        </p-calendar>
+      </div>
+      <div class="field">
+        <label for="assessment">Đánh giá</label>
+        <input [(ngModel)]="employee.assessments[0].content"
+               pInputText
+               type="text"
+               formControlName="assessment"
+        >
+      </div>
+
+      <div class="field">
+        <label for="images">Hình ảnh nhân viên</label>
+        <div *ngFor="let employee of employee.images">
+          <p-image src="http://a1lplatform.com:7555/wwwroot/upload/{{employee.url}}" alt="Image" width="450"></p-image>
+        </div>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+  </ng-template>
+</p-dialog>
+<!--endregion-->
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
