@@ -156,10 +156,6 @@ export class EmployeeComponent extends UnSubscribable implements OnInit {
     }
 
     saveEditEmployee(): void {
-        console.log(this.getEmployeeFormGroupControl('birthday').value);
-        console.log(
-            format(endOfDay(new Date(this.getEmployeeFormGroupControl('birthday').value)), "yyyy-MM-dd'T'HH:mm:ss'Z'")
-        );
         this.employeeDialog = false;
         const params = CommonHelper.buildFormData(
             this.getEmployeeFormGroupControl('address').value,

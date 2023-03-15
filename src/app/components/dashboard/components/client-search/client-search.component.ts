@@ -20,8 +20,6 @@ export class ClientSearchComponent extends UnSubscribable {
     }
 
     searchEmployee(searchString: string) {
-        console.log(searchString.length);
-
         if (!this.employeeData) {
             this.isLoadingOverlay = true;
         }
