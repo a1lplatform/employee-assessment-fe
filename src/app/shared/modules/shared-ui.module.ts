@@ -11,8 +11,8 @@ import { MessageService } from 'primeng/api';
 import { GenderPipe } from '@shared/pipes';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
-import { AuthService } from '../../components/auth/services';
 import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
     declarations: [OnlyNumberDirective, GenderPipe],
@@ -22,17 +22,18 @@ import { PasswordModule } from 'primeng/password';
         GenderPipe,
 
         //primeng module
-        CalendarModule,
-        InputTextModule,
         ButtonModule,
-        RippleModule,
-        InputNumberModule,
-        MessagesModule,
-        ToastModule,
-        ImageModule,
+        CalendarModule,
         DropdownModule,
-        PasswordModule
+        ImageModule,
+        InputNumberModule,
+        InputTextModule,
+        MessagesModule,
+        PasswordModule,
+        ProgressSpinnerModule,
+        RippleModule,
+        ToastModule
     ],
-    providers: [MessageService, AuthService]
+    providers: [MessageService]
 })
 export class SharedUiModule {}

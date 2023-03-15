@@ -8,6 +8,7 @@ import { Employee } from '../models';
 @Injectable()
 export class EmployeeService {
     constructor(private readonly httpClient: HttpClient) {}
+
     getEmployeeData(): Observable<Employee[]> {
         return this.httpClient
             .get(`${environment.defaultApiBasePath}/Employee`)
@@ -34,5 +35,11 @@ export class EmployeeService {
 
     editEmployeeAssessment(data: any): Observable<any> {
         return this.httpClient.post(`${environment.defaultApiBasePath}/Assessment`, data);
+    }
+
+    searchEmployee(id: string, searchStr: string): Observable<Employee[]> {
+        return this.httpClient
+            .get(`${environment.defaultApiBasePath}/Accounts/search?accountId=${id}&keyString=${searchStr}`)
+            .pipe(map((res: any) => res && res.data));
     }
 }

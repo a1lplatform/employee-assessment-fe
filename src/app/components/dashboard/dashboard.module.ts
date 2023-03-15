@@ -10,9 +10,10 @@ import { AccountComponent } from './components/account';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { AccountService } from './services/account.service';
 import { SharedUiModule } from '@shared/modules';
+import { ClientSearchComponent } from './components/client-search';
 
 @NgModule({
-    declarations: [EmployeeComponent, AccountComponent],
+    declarations: [EmployeeComponent, AccountComponent, ClientSearchComponent],
     imports: [
         DashboardRoutingModule,
         TableModule,

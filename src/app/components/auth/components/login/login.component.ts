@@ -48,7 +48,11 @@ export class LoginComponent extends UnSubscribable implements OnInit {
             .subscribe({
                 next: (res) => {
                     this.sessionService.rememberInfo(res);
-                    this.router.navigate(['', AppRoutes.DashBoard]);
+                    if (this.sessionService.isAdmin()) {
+                        this.router.navigate(['', AppRoutes.DashBoard]);
+                    } else {
+                        this.router.navigate(['', AppRoutes.Search]);
+                    }
                 },
                 error: (err: any) => {}
             });

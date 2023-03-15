@@ -28,7 +28,6 @@ export class AppTopBarComponent implements OnInit {
 
     ngOnInit(): void {
         this.userData = JSON.parse(localStorage.getItem('INFO_REMEMBERED') as string);
-        console.log(this.userData);
     }
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();

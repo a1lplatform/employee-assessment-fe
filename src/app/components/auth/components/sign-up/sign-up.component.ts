@@ -73,7 +73,7 @@ export class SignUpComponent extends UnSubscribable implements OnInit {
         const lowestRange = this.rangeData.filter((range) => range.title === RangeEnum.Gold);
         params.append('rangeId', lowestRange[0].id);
         params.append('rangeTitle', lowestRange[0].title);
-        params.append('rangeTitle', lowestRange[0].point.toString());
+        params.append('point', '1000');
 
         for (const element of this.selectedFiles) {
             params.append('images', element);

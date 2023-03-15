@@ -6,6 +6,7 @@ import { AccountComponent } from './components/dashboard/components/account';
 import { AuthGuard, NoAuthGuard } from '@shared/guards';
 import { AppRoutes } from '@shared/enums';
 import { SignUpComponent } from './components/auth/components/sign-up';
+import { ClientSearchComponent } from './components/dashboard/components/client-search';
 
 const routes: Routes = [
     { path: '', redirectTo: AppRoutes.DashBoard, pathMatch: 'full' },
@@ -23,6 +24,12 @@ const routes: Routes = [
                 path: AppRoutes.Account,
                 data: { breadcrumb: 'Tài khoản' },
                 component: AccountComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: AppRoutes.Search,
+                data: { breadcrumb: 'Tìm kiếm thông tin nhân viên' },
+                component: ClientSearchComponent,
                 canActivate: [AuthGuard]
             }
         ]
