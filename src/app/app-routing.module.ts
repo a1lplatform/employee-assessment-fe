@@ -7,6 +7,7 @@ import { AuthGuard, NoAuthGuard } from '@shared/guards';
 import { AppRoutes } from '@shared/enums';
 import { SignUpComponent } from './components/auth/components/sign-up';
 import { ClientSearchComponent } from './components/dashboard/components/client-search';
+import { LoginComponent } from './components/auth/components/login';
 
 const routes: Routes = [
     { path: '', redirectTo: AppRoutes.DashBoard, pathMatch: 'full' },
@@ -41,7 +42,7 @@ const routes: Routes = [
     },
     {
         path: AppRoutes.Login,
-        loadChildren: () => import('./components/auth/auth.module').then((m) => m.AuthModule)
+        component: LoginComponent
     }
 ];
 

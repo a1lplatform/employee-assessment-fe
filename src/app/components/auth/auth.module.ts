@@ -6,7 +6,6 @@ import { LoginComponent } from './components/login';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './components/sign-up';
 import { SharedUiModule } from '@shared/modules';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from './services';
 
 @NgModule({
