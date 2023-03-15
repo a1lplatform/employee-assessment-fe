@@ -52,6 +52,10 @@ export class SignUpComponent extends UnSubscribable implements OnInit {
             });
     }
 
+    backToLogin(): void {
+        this.router.navigate(['', AppRoutes.Login]);
+    }
+
     onSignUp() {
         if (this.signUpForm.invalid) {
             this.signUpForm.markAllAsTouched();
