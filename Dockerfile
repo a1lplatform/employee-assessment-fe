@@ -12,5 +12,5 @@ RUN npm run build --prod
 # Stage 1: serve app with nginx server
 FROM nginx:latest
 COPY --from=build /app/dist/employee-management  /usr/share/nginx/html/qlhr
-COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
+#COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
